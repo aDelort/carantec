@@ -24,6 +24,7 @@ import {
   THETA_WHEELS_INIT,
 } from "../utils/parameters";
 import { Vector } from "../utils/vector";
+import { Rectangle } from "../components/Rectangle";
 
 export default function Home() {
   const [thetaWheels, setThetaWheels] = useState(THETA_WHEELS_INIT);
@@ -94,15 +95,7 @@ export default function Home() {
         <rect x="1450" y="1200" width="10" height="300" fill="green" />
 
         {/* Neighbor's car */}
-        <rect
-          x="1400"
-          y="700"
-          width="400"
-          height="180"
-          fill="#ffffff"
-          fillOpacity="1"
-          stroke="black"
-        />
+        <Rectangle point={new Vector(1400, 700)} l1={400} l2={180} />
       </svg>
 
       <Box width="250px">
