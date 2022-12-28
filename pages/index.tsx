@@ -70,7 +70,16 @@ export default function Home() {
         version="1.1"
         width="1100"
         height="800"
+        viewBox="0 0 2200 1600"
       >
+        <rect
+          x="0"
+          y="0"
+          width="2200"
+          height="1600"
+          stroke="black"
+          fillOpacity="0"
+        />
         <rect x="1000" y="0" width="10" height="300" fill="green" />
         <rect x="640" y="0" width="10" height="300" fill="green" />
         <Car OF={OF} OE={OE} thetaA={thetaA} thetaB={thetaB} />
