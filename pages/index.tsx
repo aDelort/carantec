@@ -60,6 +60,9 @@ export default function Home() {
         viewBox="0 0 2000 1500"
         transform="scale(1, -1)"
       >
+        <Car OF={OF} OE={OE} thetaWheels={thetaWheels} theta={theta} />
+
+        {/* Border */}
         <rect
           x="0"
           y="0"
@@ -68,9 +71,20 @@ export default function Home() {
           stroke="black"
           fillOpacity="0"
         />
+
+        {/* Portal */}
         <rect x="1800" y="1200" width="10" height="300" fill="green" />
         <rect x="1450" y="1200" width="10" height="300" fill="green" />
-        <Car OF={OF} OE={OE} thetaWheels={thetaWheels} theta={theta} />
+
+        {/* Neighbor's car */}
+        <rect
+          x="1400"
+          y="700"
+          width="400"
+          height="180"
+          fillOpacity="0"
+          stroke="black"
+        />
       </svg>
 
       <Box width="250px">

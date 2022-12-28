@@ -14,5 +14,5 @@ export const DELTA_L = 0.1;
 export const DELTA_THETA = 1;
 
 // Initial position
-export const OF_init = new Vector(800, 800);
-export const THETA_INIT = 10;
+export const OF_init = new Vector(800, 750);
+export const THETA_INIT = 20;
