@@ -1,5 +1,5 @@
 import React from "react";
-import { Vector, cosDeg, sinDeg } from "../utils";
+import { cosDeg, sinDeg } from "../utils";
 import {
   LENGTH,
   LENGTH_BD,
@@ -7,6 +7,7 @@ import {
   WHEEL_WIDTH,
   WIDTH,
 } from "../utils/parameters";
+import { Vector } from "../utils/vector";
 import { Rectangle } from "./Rectangle";
 
 export const Car: React.FC<{

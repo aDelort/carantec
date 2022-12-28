@@ -1,4 +1,4 @@
-import { Vector } from ".";
+import { Vector } from "./vector";
 
 // Car
 export const WIDTH = 177;
@@ -14,5 +14,5 @@ export const DELTA_L = 0.1;
 export const DELTA_THETA = 1;
 
 // Initial position
-export const F_init = new Vector(200, 600);
-export const THETA_INIT = 20;
+export const OF_init = new Vector(800, 800);
+export const THETA_INIT = 10;

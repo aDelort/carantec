@@ -1,5 +1,6 @@
 import React from "react";
-import { cosDeg, sinDeg, Vector } from "../utils";
+import { cosDeg, sinDeg } from "../utils";
+import { Vector } from "../utils/vector";
 
 export const Rectangle: React.FC<{
   point: Vector;
