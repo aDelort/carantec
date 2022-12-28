@@ -1,5 +1,5 @@
 import React from "react";
-import { Coordinates, cosDeg, sinDeg, timesScalar, add, minus } from "../utils";
+import { Vector, cosDeg, sinDeg } from "../utils";
 import {
   LENGTH,
   LENGTH_BD,
@@ -10,61 +10,51 @@ import {
 import { Rectangle } from "./Rectangle";
 
 export const Car: React.FC<{
-  OE: Coordinates;
-  OF: Coordinates;
+  OE: Vector;
+  OF: Vector;
   thetaWheels?: number;
   theta: number;
 }> = ({ OE, OF, thetaWheels = 0, theta }) => {
-  const CAR_PERP = {
-    x: -WIDTH * sinDeg(theta),
-    y: WIDTH * cosDeg(theta),
-  };
+  const CAR_PERP = new Vector(WIDTH * sinDeg(-theta), WIDTH * cosDeg(-theta));
 
-  const BD = {
-    x: LENGTH_BD * cosDeg(theta),
-    y: LENGTH_BD * sinDeg(theta),
-  };
+  const BD = new Vector(LENGTH_BD * cosDeg(theta), LENGTH_BD * sinDeg(theta));
 
-  const OD = add(OF, timesScalar(CAR_PERP, -1 / 2));
+  const OD = OF.add(CAR_PERP.times(-1 / 2));
 
-  const OB = add(OD, minus(BD));
+  const OB = OD.add(BD.times(-1));
 
-  const OC = add(OE, timesScalar(CAR_PERP, -1 / 2));
+  const OC = OE.add(CAR_PERP.times(-1 / 2));
 
   //Wheels
-  const rearWheelVect = {
-    x: WHEEL_LENGTH * cosDeg(theta),
-    y: WHEEL_LENGTH * sinDeg(theta),
-  };
-  const rearWheelPerpVect = {
-    x: -WHEEL_WIDTH * sinDeg(theta),
-    y: WHEEL_WIDTH * cosDeg(theta),
-  };
-
-  const O_RR = add(OD, timesScalar(rearWheelVect, -1 / 2));
-  const O_RL = add(
-    OF,
-    timesScalar(CAR_PERP, 1 / 2),
-    timesScalar(rearWheelVect, -1 / 2),
-    minus(rearWheelPerpVect)
+  const rearWheelVect = new Vector(
+    WHEEL_LENGTH * cosDeg(theta),
+    WHEEL_LENGTH * sinDeg(theta)
   );
 
-  const frontWheelVect = {
-    x: WHEEL_LENGTH * cosDeg(theta + thetaWheels),
-    y: WHEEL_LENGTH * sinDeg(theta + thetaWheels),
-  };
-  const frontWheelPerpVect = {
-    x: -WHEEL_WIDTH * sinDeg(theta + thetaWheels),
-    y: WHEEL_WIDTH * cosDeg(theta + thetaWheels),
-  };
-
-  const O_FR = add(OC, timesScalar(frontWheelVect, -1 / 2));
-  const O_FL = add(
-    OE,
-    timesScalar(CAR_PERP, 1 / 2),
-    timesScalar(frontWheelVect, -1 / 2),
-    minus(frontWheelPerpVect)
+  const rearWheelPerpVect = new Vector(
+    WHEEL_WIDTH * sinDeg(-theta),
+    WHEEL_WIDTH * cosDeg(-theta)
   );
+
+  const O_RR = OD.add(rearWheelVect.times(-1 / 2));
+  const O_RL = OF.add(CAR_PERP.times(1 / 2))
+    .add(rearWheelVect.times(-1 / 2))
+    .add(rearWheelPerpVect.times(-1));
+
+  const frontWheelVect = new Vector(
+    WHEEL_LENGTH * cosDeg(theta + thetaWheels),
+    WHEEL_LENGTH * sinDeg(theta + thetaWheels)
+  );
+
+  const frontWheelPerpVect = new Vector(
+    WHEEL_WIDTH * sinDeg(-theta - thetaWheels),
+    WHEEL_WIDTH * cosDeg(-theta - thetaWheels)
+  );
+
+  const O_FR = OC.add(frontWheelVect.times(-1 / 2));
+  const O_FL = OE.add(CAR_PERP.times(1 / 2))
+    .add(frontWheelVect.times(-1 / 2))
+    .add(frontWheelPerpVect.times(-1));
 
   return (
     <>

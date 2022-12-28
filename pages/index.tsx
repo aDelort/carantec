@@ -2,15 +2,7 @@ import { TextField } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import React, { useState } from "react";
 import _ from "lodash";
-import {
-  Coordinates,
-  cosDeg,
-  sinDeg,
-  timesScalar,
-  norm,
-  add,
-  minus,
-} from "../utils";
+import { Vector, cosDeg, sinDeg } from "../utils";
 import { Car } from "../components/Car";
 import {
   DELTA_L,
@@ -26,41 +18,35 @@ import {
 export default function Home() {
   const [thetaWheels, setThetaA] = useState(0);
 
-  const [OF, setOF] = useState<Coordinates>(F_init);
+  const [OF, setOF] = useState<Vector>(F_init);
 
   const lengthFE = LENGTH - LENGTH_AC - LENGTH_BD;
 
-  const [OE, setOE] = useState<Coordinates>(
-    add(F_init, {
-      x: lengthFE * cosDeg(THETA_INIT),
-      y: lengthFE * sinDeg(-THETA_INIT),
-    })
+  const FE_init = new Vector(
+    lengthFE * cosDeg(THETA_INIT),
+    lengthFE * sinDeg(-THETA_INIT)
   );
 
-  const FE = add(OE, minus(OF));
-  const theta = (Math.asin(FE.y / norm(FE)) * 180) / Math.PI;
+  const [OE, setOE] = useState<Vector>(F_init.add(FE_init));
+
+  const FE = OE.add(OF.times(-1));
+  const theta = (Math.asin(FE.y / FE.norm()) * 180) / Math.PI;
 
   const move = (backwards: boolean): void => {
     const sign = backwards ? -1 : 1;
 
-    setOE((OE) =>
-      add(OE, {
-        x: sign * cosDeg(theta + thetaWheels) * DELTA_L,
-        y: sign * sinDeg(theta + thetaWheels) * DELTA_L,
-      })
+    const dOE = new Vector(
+      cosDeg(theta + thetaWheels),
+      sinDeg(theta + thetaWheels)
+    ).times(sign * DELTA_L);
+
+    setOE((OE) => OE.add(dOE));
+
+    const dOF = new Vector(cosDeg(theta), sinDeg(theta)).times(
+      sign * DELTA_L * cosDeg(thetaWheels)
     );
-    setOF((OF) =>
-      add(
-        OF,
-        timesScalar(
-          {
-            x: sign * cosDeg(theta) * DELTA_L,
-            y: sign * sinDeg(theta) * DELTA_L,
-          },
-          cosDeg(thetaWheels)
-        )
-      )
-    );
+
+    setOF((OF) => OF.add(dOF));
   };
 
   return (

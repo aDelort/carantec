@@ -5,28 +5,28 @@ export const cosDeg = (theta: number): number =>
 export const sinDeg = (theta: number): number =>
   Math.sin((theta * Math.PI) / 180);
 
-export type Coordinates = {
+export class Vector {
   x: number;
   y: number;
-};
 
-export const add = (...points: Coordinates[]): Coordinates => ({
-  x: _.sum(points.map(({ x }) => x)),
-  y: _.sum(points.map(({ y }) => y)),
-});
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
 
-export const minus = (point: Coordinates): Coordinates => ({
-  x: -point.x,
-  y: -point.y,
-});
+  add(point: Vector): Vector {
+    return new Vector(this.x + point.x, this.y + point.y);
+  }
 
-export const timesScalar = (
-  point: Coordinates,
-  scalar: number
-): Coordinates => ({
-  x: scalar * point.x,
-  y: scalar * point.y,
-});
+  // "-"(point1: Vector, point2: Vector): Vector {
+  //   return new Vector(point1.x - point2.x, point2.y - point2.y);
+  // }
 
-export const norm = (point: Coordinates): number =>
-  Math.sqrt(point.x * point.x + point.y * point.y);
+  times(scalar: number): Vector {
+    return new Vector(scalar * this.x, scalar * this.y);
+  }
+
+  norm(): number {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+}
