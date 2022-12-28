@@ -40,11 +40,13 @@ export default function Home() {
   const FE = add(OE, minus(OF));
   const thetaB = (Math.asin(FE.y / norm(FE)) * 180) / Math.PI;
 
-  const goForward = () => {
+  const move = (backwards: boolean): void => {
+    const sign = backwards ? -1 : 1;
+
     setOE((OE) =>
       add(OE, {
-        x: cosDeg(thetaA) * DELTA_L,
-        y: sinDeg(thetaA) * DELTA_L,
+        x: sign * cosDeg(thetaA) * DELTA_L,
+        y: sign * sinDeg(thetaA) * DELTA_L,
       })
     );
     setOF((OF) =>
@@ -52,8 +54,8 @@ export default function Home() {
         OF,
         timesScalar(
           {
-            x: cosDeg(thetaB) * DELTA_L,
-            y: sinDeg(thetaB) * DELTA_L,
+            x: sign * cosDeg(thetaB) * DELTA_L,
+            y: sign * sinDeg(thetaB) * DELTA_L,
           },
           cosDeg(thetaA - thetaB)
         )
@@ -81,7 +83,10 @@ export default function Home() {
           onKeyDown={(e) => {
             switch (e.code) {
               case "ArrowUp":
-                for (let i = 0; i < NB_ITERATIONS; i++) goForward();
+                for (let i = 0; i < NB_ITERATIONS; i++) move(false);
+                break;
+              case "ArrowDown":
+                for (let i = 0; i < NB_ITERATIONS; i++) move(true);
                 break;
               case "ArrowLeft":
                 setThetaA((t) => t - DELTA_THETA);
