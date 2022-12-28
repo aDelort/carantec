@@ -24,7 +24,7 @@ import {
 } from "../utils/parameters";
 
 export default function Home() {
-  const [thetaA, setThetaA] = useState(-THETA_INIT);
+  const [thetaWheels, setThetaA] = useState(0);
 
   const [OF, setOF] = useState<Coordinates>(F_init);
 
@@ -38,15 +38,15 @@ export default function Home() {
   );
 
   const FE = add(OE, minus(OF));
-  const thetaB = (Math.asin(FE.y / norm(FE)) * 180) / Math.PI;
+  const theta = (Math.asin(FE.y / norm(FE)) * 180) / Math.PI;
 
   const move = (backwards: boolean): void => {
     const sign = backwards ? -1 : 1;
 
     setOE((OE) =>
       add(OE, {
-        x: sign * cosDeg(thetaA) * DELTA_L,
-        y: sign * sinDeg(thetaA) * DELTA_L,
+        x: sign * cosDeg(theta + thetaWheels) * DELTA_L,
+        y: sign * sinDeg(theta + thetaWheels) * DELTA_L,
       })
     );
     setOF((OF) =>
@@ -54,10 +54,10 @@ export default function Home() {
         OF,
         timesScalar(
           {
-            x: sign * cosDeg(thetaB) * DELTA_L,
-            y: sign * sinDeg(thetaB) * DELTA_L,
+            x: sign * cosDeg(theta) * DELTA_L,
+            y: sign * sinDeg(theta) * DELTA_L,
           },
-          cosDeg(thetaA - thetaB)
+          cosDeg(thetaWheels)
         )
       )
     );
@@ -82,12 +82,12 @@ export default function Home() {
         />
         <rect x="1000" y="0" width="10" height="300" fill="green" />
         <rect x="640" y="0" width="10" height="300" fill="green" />
-        <Car OF={OF} OE={OE} thetaA={thetaA} thetaB={thetaB} />
+        <Car OF={OF} OE={OE} thetaWheels={thetaWheels} theta={theta} />
       </svg>
 
       <Box width="250px">
         <TextField
-          value={-thetaA}
+          value={-thetaWheels}
           onChange={(e) => setThetaA(-parseInt(e.target.value))}
           onKeyDown={(e) => {
             switch (e.code) {

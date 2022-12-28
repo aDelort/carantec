@@ -12,17 +12,17 @@ import { Rectangle } from "./Rectangle";
 export const Car: React.FC<{
   OE: Coordinates;
   OF: Coordinates;
-  thetaA?: number;
-  thetaB: number;
-}> = ({ OE, OF, thetaA = 0, thetaB }) => {
+  thetaWheels?: number;
+  theta: number;
+}> = ({ OE, OF, thetaWheels = 0, theta }) => {
   const CAR_PERP = {
-    x: -WIDTH * sinDeg(thetaB),
-    y: WIDTH * cosDeg(thetaB),
+    x: -WIDTH * sinDeg(theta),
+    y: WIDTH * cosDeg(theta),
   };
 
   const BD = {
-    x: LENGTH_BD * cosDeg(thetaB),
-    y: LENGTH_BD * sinDeg(thetaB),
+    x: LENGTH_BD * cosDeg(theta),
+    y: LENGTH_BD * sinDeg(theta),
   };
 
   const OD = add(OF, timesScalar(CAR_PERP, -1 / 2));
@@ -33,12 +33,12 @@ export const Car: React.FC<{
 
   //Wheels
   const rearWheelVect = {
-    x: WHEEL_LENGTH * cosDeg(thetaB),
-    y: WHEEL_LENGTH * sinDeg(thetaB),
+    x: WHEEL_LENGTH * cosDeg(theta),
+    y: WHEEL_LENGTH * sinDeg(theta),
   };
   const rearWheelPerpVect = {
-    x: -WHEEL_WIDTH * sinDeg(thetaB),
-    y: WHEEL_WIDTH * cosDeg(thetaB),
+    x: -WHEEL_WIDTH * sinDeg(theta),
+    y: WHEEL_WIDTH * cosDeg(theta),
   };
 
   const O_RR = add(OD, timesScalar(rearWheelVect, -1 / 2));
@@ -50,12 +50,12 @@ export const Car: React.FC<{
   );
 
   const frontWheelVect = {
-    x: WHEEL_LENGTH * cosDeg(thetaA),
-    y: WHEEL_LENGTH * sinDeg(thetaA),
+    x: WHEEL_LENGTH * cosDeg(theta + thetaWheels),
+    y: WHEEL_LENGTH * sinDeg(theta + thetaWheels),
   };
   const frontWheelPerpVect = {
-    x: -WHEEL_WIDTH * sinDeg(thetaA),
-    y: WHEEL_WIDTH * cosDeg(thetaA),
+    x: -WHEEL_WIDTH * sinDeg(theta + thetaWheels),
+    y: WHEEL_WIDTH * cosDeg(theta + thetaWheels),
   };
 
   const O_FR = add(OC, timesScalar(frontWheelVect, -1 / 2));
@@ -75,7 +75,7 @@ export const Car: React.FC<{
           y: OB.y,
           l1: LENGTH,
           l2: WIDTH,
-          theta: thetaB,
+          theta: theta,
         }}
       />
       {/* Rear wheels */}
@@ -85,7 +85,7 @@ export const Car: React.FC<{
           y: O_RR.y,
           l1: WHEEL_LENGTH,
           l2: WHEEL_WIDTH,
-          theta: thetaB,
+          theta: theta,
         }}
       />
       <Rectangle
@@ -94,7 +94,7 @@ export const Car: React.FC<{
           y: O_RL.y,
           l1: WHEEL_LENGTH,
           l2: WHEEL_WIDTH,
-          theta: thetaB,
+          theta: theta,
         }}
       />
       {/* Front wheels */}
@@ -104,7 +104,7 @@ export const Car: React.FC<{
           y: O_FR.y,
           l1: WHEEL_LENGTH,
           l2: WHEEL_WIDTH,
-          theta: thetaA,
+          theta: theta + thetaWheels,
         }}
       />
       <Rectangle
@@ -113,7 +113,7 @@ export const Car: React.FC<{
           y: O_FL.y,
           l1: WHEEL_LENGTH,
           l2: WHEEL_WIDTH,
-          theta: thetaA,
+          theta: theta + thetaWheels,
         }}
       />
     </>
