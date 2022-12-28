@@ -59,52 +59,34 @@ export const Car: React.FC<{
   return (
     <>
       {/* Car */}
-      <Rectangle
-        rectangle={{
-          x: OB.x,
-          y: OB.y,
-          l1: LENGTH,
-          l2: WIDTH,
-          theta: theta,
-        }}
-      />
+      <Rectangle point={OB} l1={LENGTH} l2={WIDTH} theta={theta} />
+
       {/* Rear wheels */}
       <Rectangle
-        rectangle={{
-          x: O_RR.x,
-          y: O_RR.y,
-          l1: WHEEL_LENGTH,
-          l2: WHEEL_WIDTH,
-          theta: theta,
-        }}
+        point={O_RR}
+        l1={WHEEL_LENGTH}
+        l2={WHEEL_WIDTH}
+        theta={theta}
       />
       <Rectangle
-        rectangle={{
-          x: O_RL.x,
-          y: O_RL.y,
-          l1: WHEEL_LENGTH,
-          l2: WHEEL_WIDTH,
-          theta: theta,
-        }}
+        point={O_RL}
+        l1={WHEEL_LENGTH}
+        l2={WHEEL_WIDTH}
+        theta={theta}
       />
+
       {/* Front wheels */}
       <Rectangle
-        rectangle={{
-          x: O_FR.x,
-          y: O_FR.y,
-          l1: WHEEL_LENGTH,
-          l2: WHEEL_WIDTH,
-          theta: theta + thetaWheels,
-        }}
+        point={O_FR}
+        l1={WHEEL_LENGTH}
+        l2={WHEEL_WIDTH}
+        theta={theta + thetaWheels}
       />
       <Rectangle
-        rectangle={{
-          x: O_FL.x,
-          y: O_FL.y,
-          l1: WHEEL_LENGTH,
-          l2: WHEEL_WIDTH,
-          theta: theta + thetaWheels,
-        }}
+        point={O_FL}
+        l1={WHEEL_LENGTH}
+        l2={WHEEL_WIDTH}
+        theta={theta + thetaWheels}
       />
     </>
   );
