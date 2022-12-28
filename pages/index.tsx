@@ -17,7 +17,7 @@ import {
 import { Vector } from "../utils/vector";
 
 export default function Home() {
-  const [thetaWheels, setThetaA] = useState(0);
+  const [thetaWheels, setThetaWheels] = useState(0);
 
   const [OF, setOF] = useState<Vector>(OF_init);
 
@@ -90,7 +90,7 @@ export default function Home() {
       <Box width="250px">
         <TextField
           value={thetaWheels}
-          onChange={(e) => setThetaA(parseInt(e.target.value))}
+          onChange={(e) => setThetaWheels(parseInt(e.target.value))}
           onKeyDown={(e) => {
             switch (e.code) {
               case "ArrowUp":
@@ -100,10 +100,10 @@ export default function Home() {
                 for (let i = 0; i < NB_ITERATIONS; i++) move(true);
                 break;
               case "ArrowLeft":
-                setThetaA((t) => t + DELTA_THETA);
+                setThetaWheels((t) => t + DELTA_THETA);
                 break;
               case "ArrowRight":
-                setThetaA((t) => t - DELTA_THETA);
+                setThetaWheels((t) => t - DELTA_THETA);
                 break;
             }
           }}
