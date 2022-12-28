@@ -1,4 +1,12 @@
-import { TextField } from "@mui/material";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  IconButton,
+  TextField,
+} from "@mui/material";
+import { Refresh } from "@mui/icons-material";
 import { Box, Stack } from "@mui/system";
 import React, { useState } from "react";
 import _ from "lodash";
@@ -13,11 +21,12 @@ import {
   LENGTH_BD,
   NB_ITERATIONS,
   THETA_INIT,
+  THETA_WHEELS_INIT,
 } from "../utils/parameters";
 import { Vector } from "../utils/vector";
 
 export default function Home() {
-  const [thetaWheels, setThetaWheels] = useState(0);
+  const [thetaWheels, setThetaWheels] = useState(THETA_WHEELS_INIT);
 
   const [OF, setOF] = useState<Vector>(OF_init);
 
@@ -28,7 +37,9 @@ export default function Home() {
     lengthFE * sinDeg(THETA_INIT)
   );
 
-  const [OE, setOE] = useState<Vector>(OF_init.add(FE_init));
+  const OE_init = OF_init.add(FE_init);
+
+  const [OE, setOE] = useState<Vector>(OE_init);
 
   const FE = OE.add(OF.times(-1));
   const theta = (Math.asin(FE.y / FE.norm()) * 180) / Math.PI;
@@ -48,6 +59,12 @@ export default function Home() {
     );
 
     setOF((OF) => OF.add(dOF));
+  };
+
+  const resetParams = () => {
+    setOF(OF_init);
+    setOE(OE_init);
+    setThetaWheels(THETA_WHEELS_INIT);
   };
 
   return (
@@ -82,32 +99,49 @@ export default function Home() {
           y="700"
           width="400"
           height="180"
-          fillOpacity="0"
+          fill="#ffffff"
+          fillOpacity="1"
           stroke="black"
         />
       </svg>
 
       <Box width="250px">
-        <TextField
-          value={thetaWheels}
-          onChange={(e) => setThetaWheels(parseInt(e.target.value))}
-          onKeyDown={(e) => {
-            switch (e.code) {
-              case "ArrowUp":
-                for (let i = 0; i < NB_ITERATIONS; i++) move(false);
-                break;
-              case "ArrowDown":
-                for (let i = 0; i < NB_ITERATIONS; i++) move(true);
-                break;
-              case "ArrowLeft":
-                setThetaWheels((t) => t + DELTA_THETA);
-                break;
-              case "ArrowRight":
-                setThetaWheels((t) => t - DELTA_THETA);
-                break;
+        <Card raised>
+          <CardHeader
+            title="Paramètres"
+            action={
+              <IconButton onClick={resetParams}>
+                <Refresh />
+              </IconButton>
             }
-          }}
-        />
+          />
+          <CardContent>
+            <Stack spacing={3}>
+              <TextField value={theta.toFixed(2)} label="Theta" disabled />
+              <TextField
+                value={thetaWheels}
+                label="Theta Wheels"
+                onChange={(e) => setThetaWheels(parseInt(e.target.value))}
+                onKeyDown={(e) => {
+                  switch (e.code) {
+                    case "ArrowUp":
+                      for (let i = 0; i < NB_ITERATIONS; i++) move(false);
+                      break;
+                    case "ArrowDown":
+                      for (let i = 0; i < NB_ITERATIONS; i++) move(true);
+                      break;
+                    case "ArrowLeft":
+                      setThetaWheels((t) => t + DELTA_THETA);
+                      break;
+                    case "ArrowRight":
+                      setThetaWheels((t) => t - DELTA_THETA);
+                      break;
+                  }
+                }}
+              />
+            </Stack>
+          </CardContent>
+        </Card>
       </Box>
     </Stack>
   );
