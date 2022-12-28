@@ -42,7 +42,7 @@ export default function Home() {
   const [OE, setOE] = useState<Vector>(OE_init);
 
   const FE = OE.add(OF.times(-1));
-  const theta = (Math.asin(FE.y / FE.norm()) * 180) / Math.PI;
+  const theta = (Math.atan2(FE.y, FE.x) * 180) / Math.PI;
 
   const move = (backwards: boolean): void => {
     const sign = backwards ? -1 : 1;
